@@ -2,7 +2,7 @@
 
 require '../config/database.php';
 
-if ($SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $name = $_POST['name'];
 
@@ -11,7 +11,7 @@ if ($SERVER["REQUEST_METHOD"] == "POST") {
     
     );  
 
-    $stmt->bind_pram("s", $name);
+    $stmt->bind_param("s", $name);
 
     $stmt->execute();
 
