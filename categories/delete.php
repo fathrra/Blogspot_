@@ -1,8 +1,9 @@
 <?php
 
-require '../config/databse.php';
+require '../config/database.php'; // 1. Perbaikan typo: databse -> database
 
-if (!isset($GET['id'])) {
+// 2. Perbaikan typo: $GET -> $_GET
+if (!isset($_GET['id'])) {
     header("Location: index.php");
     exit;
 }
@@ -10,10 +11,11 @@ if (!isset($GET['id'])) {
 $id = $_GET['id'];
 
 $stmt = $conn->prepare(
-    "DELETE FROM CATEGORIES WHERE id = ?"
+    "DELETE FROM categories WHERE id = ?" // 'categories' biasanya huruf kecil sesuai nama tabelmu
 );
 
-$stmt->bind_param("i" $id);
+// 3. Tambahkan koma antara "i" dan $id
+$stmt->bind_param("i", $id);
 
 $stmt->execute();
 
