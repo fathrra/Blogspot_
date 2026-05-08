@@ -4,7 +4,7 @@ $conn = new mysqli(
     "localhost",
     "root",
     "",
-    "blogspot_"
+    "blogspot"
 );
 
 if ($conn->connect_error ) {
