@@ -17,7 +17,7 @@
         <a class="navbar-brand" href="/index.php">My Blog</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="Blogspot_/index.php">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/index.php">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="/posts.php">Posts</a></li>
                 <li class="nav-item"><a class="nav-link" href="/categories/index.php">Categories</a></li>
             </ul>
