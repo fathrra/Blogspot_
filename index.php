@@ -2,7 +2,6 @@
 require 'config/database.php';
 include 'layout/header.php';
 
-// Ambil 3 postingan terbaru untuk ditampilkan di beranda
 $query = "SELECT posts.*, categories.name AS category_name 
           FROM posts 
           LEFT JOIN categories ON posts.category_id = categories.id 
@@ -10,30 +9,56 @@ $query = "SELECT posts.*, categories.name AS category_name
 $result = $conn->query($query);
 ?>
 
-<div class="p-5 mb-4 bg-light rounded-3">
-    <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Selamat Datang di Blog Saya</h1>
-        <p class="col-md-8 fs-4">Tempat berbagi cerita, tutorial, dan pengalaman seputar dunia teknologi dan lainnya.</p>
-        <a href="posts.php" class="btn btn-primary btn-lg">Lihat Semua Postingan</a>
+<!-- HERO -->
+<div class="page-hero" style="margin-bottom:0; padding-bottom:4rem;">
+    <div class="main-container" style="padding-bottom:0;">
+        <div class="hero-tag">Blog System</div>
+        <h1>Cerita, Ide,<br>dan Inspirasi.</h1>
+        <p style="max-width:400px; margin-bottom:1.8rem;">
+            Tempat berbagi tutorial, pengalaman, dan pemikiran seputar teknologi dan kehidupan.
+        </p>
+        <a href="posts.php" class="btn-dark">Lihat Semua Postingan &rarr;</a>
     </div>
 </div>
 
-<h2 class="mb-4">Postingan Terbaru</h2>
-<div class="row">
-    <?php while($row = $result->fetch_assoc()): ?>
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <span class="badge bg-info text-dark mb-2"><?= $row['category_name'] ?? 'Uncategorized'; ?></span>
-                <h5 class="card-title"><?= $row['title']; ?></h5>
-                <p class="card-text"><?= substr($row['content'], 0, 100); ?>...</p>
-            </div>
-            <div class="card-footer bg-transparent border-top-0">
-                <a href="#" class="btn btn-outline-primary btn-sm">Baca Selengkapnya</a>
+<!-- POSTS TERBARU -->
+<div style="margin-top:2.5rem;">
+    <div class="section-label">Postingan Terbaru</div>
+
+    <?php if ($result->num_rows > 0): ?>
+    <div class="row g-3">
+        <?php 
+        $symbols = ['✦', '◈', '◇'];
+        $i = 0;
+        while ($row = $result->fetch_assoc()): 
+        ?>
+        <div class="col-md-4">
+            <div class="blog-card">
+                <div class="card-thumb">
+                    <span><?= $symbols[$i % 3]; ?></span>
+                </div>
+                <div class="card-inner">
+                    <div class="cat-badge"><?= htmlspecialchars($row['category_name'] ?? 'Uncategorized'); ?></div>
+                    <h5 style="font-size:14px; font-weight:500; line-height:1.4; margin-bottom:6px;">
+                        <?= htmlspecialchars($row['title']); ?>
+                    </h5>
+                    <p style="font-size:12.5px; color:#6b6b6b; line-height:1.6; margin:0;">
+                        <?= htmlspecialchars(substr($row['content'], 0, 100)); ?>...
+                    </p>
+                </div>
+                <div class="card-footer-strip">
+                    <a href="#" class="read-link">Baca Selengkapnya &rarr;</a>
+                </div>
             </div>
         </div>
+        <?php $i++; endwhile; ?>
     </div>
-    <?php endwhile; ?>
+
+    <?php else: ?>
+    <div style="text-align:center; padding:3rem; color:#6b6b6b; font-size:14px; background:#fff; border-radius:12px; border:0.5px solid rgba(0,0,0,0.07);">
+        Belum ada postingan. <a href="posts/create.php" style="color:#185FA5;">Tulis yang pertama →</a>
+    </div>
+    <?php endif; ?>
 </div>
 
 <?php include 'layout/footer.php'; ?>

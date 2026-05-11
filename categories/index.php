@@ -1,62 +1,77 @@
 <?php 
 require '../config/database.php';
-include '../layout/header.php'; // Panggil header agar ada navbar
+include '../layout/header.php';
 
-// Logika Simpan Data
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $name = $_POST['name'];
     $stmt = $conn->prepare("INSERT INTO categories (name) VALUES (?)");
     $stmt->bind_param("s", $name);
     $stmt->execute();
-    
-    // Refresh halaman agar data terbaru muncul
     header("location: index.php");
     exit;
 }
 
-// Ambil Data untuk List
 $result = $conn->query("SELECT * FROM categories ORDER BY id DESC");
 ?>
 
-<div class="row">
+<!-- HERO -->
+<div class="page-hero" style="margin-left:-2rem; margin-right:-2rem; margin-top:0;">
+    <div class="hero-tag">Manajemen</div>
+    <h1>Kelola Kategori</h1>
+    <p>Tambah dan hapus kategori untuk postinganmu.</p>
+</div>
+
+<div class="row g-4 align-items-start">
+
+    <!-- FORM TAMBAH -->
     <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">Tambah Kategori</div>
-            <div class="card-body">
-                <form action="" method="POST">
-                    <div class="mb-3">
-                        <label class="form-label">Nama Kategori</label>
-                        <input type="text" name="name" class="form-control" placeholder="Contoh: Teknologi" required>
-                    </div>
-                    <button type="submit" name="submit" class="btn btn-primary w-100">Simpan</button>
-                </form>
-            </div>
+        <div class="section-label">Tambah Baru</div>
+        <div class="form-card">
+            <form action="" method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Nama Kategori</label>
+                    <input type="text" name="name" class="form-control" placeholder="Contoh: Teknologi" required>
+                </div>
+                <button type="submit" name="submit" class="btn-submit w-100">Simpan Kategori</button>
+            </form>
         </div>
     </div>
 
+    <!-- LIST -->
     <div class="col-md-8">
-        <h3>Daftar Kategori</h3>
-        <table class="table table-bordered table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nama Kategori</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><?= $row['id']; ?></td>
-                    <td><?= $row['name']; ?></td>
-                    <td>
-                        <a href="delete.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus kategori ini?')">Hapus</a>
-                    </td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+        <div class="section-label">Daftar Kategori</div>
+        <div class="data-table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width:60px;">ID</th>
+                        <th>Nama Kategori</th>
+                        <th style="width:100px;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td style="color:#aaa; font-size:12px;"><?= $row['id']; ?></td>
+                        <td><?= htmlspecialchars($row['name']); ?></td>
+                        <td>
+                            <a href="delete.php?id=<?= $row['id']; ?>" class="btn-del" onclick="return confirm('Hapus kategori ini?')">&#10005; Hapus</a>
+                        </td>
+                    </tr>
+                    <?php endwhile; ?>
+
+                    <?php if ($result->num_rows == 0): ?>
+                    <tr>
+                        <td colspan="3" style="text-align:center; padding:2rem; color:#aaa; font-size:13px;">
+                            Belum ada kategori.
+                        </td>
+                    </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
+
 </div>
 
-<?php include '../layout/footer.php'; // Panggil footer ?>
+<?php include '../layout/footer.php'; ?>
