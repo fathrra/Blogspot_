@@ -1,9 +1,10 @@
 <?php 
 require '../config/database.php';
 
-// 1. LOGIKA PROSES DATA HARUS DI PALING ATAS
+// 1. LOGIKA PROSES DATA (PASTIKAN SLUG DIISI)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $name = $_POST['name'];
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     $stmt = $conn->prepare("INSERT INTO categories (name) VALUES (?)");
     $stmt->bind_param("s", $name);
@@ -22,6 +23,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     
     if ($stmt->execute()) {
 >>>>>>> Stashed changes
+=======
+    
+    // Buat slug otomatis: kecilkan huruf dan ganti spasi dengan minus
+    $slug = strtolower(str_replace(' ', '-', $name));
+    
+    // Tambahkan kolom slug di query INSERT
+    $stmt = $conn->prepare("INSERT INTO categories (name, slug) VALUES (?, ?)");
+    $stmt->bind_param("ss", $name, $slug);
+    
+    if ($stmt->execute()) {
+>>>>>>> 10068476123eebe9d767d3acb903b777b1de2742
         header("location: index.php");
         exit;
     }
@@ -30,11 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 // 2. AMBIL DATA DARI DATABASE
 $result = $conn->query("SELECT * FROM categories ORDER BY id DESC");
 
-// 3. BARU PANGGIL HEADER (SETELAH LOGIKA PHP SELESAI)
+// 3. BARU PANGGIL HEADER
 include '../layout/header.php'; 
 ?>
 
-<!-- HERO -->
 <div class="page-hero" style="margin-left:-2rem; margin-right:-2rem; margin-top:0;">
     <div class="hero-tag">Manajemen</div>
     <h1>Kelola Kategori</h1>
@@ -43,7 +54,6 @@ include '../layout/header.php';
 
 <div class="row g-4 align-items-start">
 
-    <!-- FORM TAMBAH -->
     <div class="col-md-4">
         <div class="section-label">Tambah Baru</div>
         <div class="form-card">
@@ -57,7 +67,6 @@ include '../layout/header.php';
         </div>
     </div>
 
-    <!-- LIST -->
     <div class="col-md-8">
         <div class="section-label">Daftar Kategori</div>
         <div class="data-table-wrap">
