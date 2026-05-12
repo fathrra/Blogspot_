@@ -343,9 +343,11 @@
 <nav class="site-nav">
     <a class="brand" href="/index.php">✦ <span>My</span> Blog</a>
     <div class="nav-links">
-        <a href="../Blogspot_/index.php">Home</a>
-        <a href="../Blogspot_/posts.php">Posts</a>
-        <a href="../Blogspot_/categories/index.php">Categories</a>
+
+        <a href="/blogspot_/Blogspot_/index.php">Home</a>
+        <a href="/blogspot_/Blogspot_/posts.php">Posts</a>
+        <a href="/blogspot_/Blogspot_/categories/index.php">Categories</a>
+
     </div>
 </nav>
 
