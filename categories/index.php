@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $stmt->bind_param("ss", $name, $slug);
     
     if ($stmt->execute()) {
->>>>>>> 10068476123eebe9d767d3acb903b777b1de2742
+
         header("location: index.php");
         exit;
     }
