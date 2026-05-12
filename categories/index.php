@@ -1,17 +1,16 @@
 <?php 
 require '../config/database.php';
 
-// 1. LOGIKA PROSES DATA (PASTIKAN SLUG DIISI)
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $name = $_POST['name'];
-<<<<<<< HEAD
-<<<<<<< Updated upstream
+
     $stmt = $conn->prepare("INSERT INTO categories (name) VALUES (?)");
     $stmt->bind_param("s", $name);
     
     if ($stmt->execute()) {
         // Sekarang redirect akan berhasil karena belum ada include header.php
-=======
+
     
     // 1. Buat Slug otomatis dari nama (kecilkan huruf, ganti spasi dengan minus)
     $slug = strtolower(str_replace(' ', '-', $name));
@@ -22,8 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $stmt->bind_param("ss", $name, $slug);
     
     if ($stmt->execute()) {
->>>>>>> Stashed changes
-=======
+
     
     // Buat slug otomatis: kecilkan huruf dan ganti spasi dengan minus
     $slug = strtolower(str_replace(' ', '-', $name));
