@@ -37,18 +37,25 @@ $result = $conn->query($query);
                 <div class="card-thumb">
                     <span><?= $symbols[$i % 3]; ?></span>
                 </div>
-                <div class="card-inner">
-                    <div class="cat-badge"><?= htmlspecialchars($row['category_name'] ?? 'Uncategorized'); ?></div>
-                    <h5 style="font-size:14px; font-weight:500; line-height:1.4; margin-bottom:6px;">
-                        <?= htmlspecialchars($row['title']); ?>
-                    </h5>
-                    <p style="font-size:12.5px; color:#6b6b6b; line-height:1.6; margin:0;">
-                        <?= htmlspecialchars(substr($row['content'], 0, 100)); ?>...
-                    </p>
-                </div>
-                <div class="card-footer-strip">
-                    <a href="#" class="read-link">Baca Selengkapnya &rarr;</a>
-                </div>
+               <div class="card-inner">
+    <div class="cat-badge"><?= htmlspecialchars($row['category_name'] ?? 'Uncategorized'); ?></div>
+    
+    <!-- Tambahkan link di Judul juga agar lebih user-friendly -->
+    <h5 style="font-size:14px; font-weight:500; line-height:1.4; margin-bottom:6px;">
+        <a href="posts/read.php?id=<?= $row['id']; ?>" style="text-decoration:none; color:inherit;">
+            <?= htmlspecialchars($row['title']); ?>
+        </a>
+    </h5>
+
+    <p style="font-size:12.5px; color:#6b6b6b; line-height:1.6; margin:0;">
+        <?= htmlspecialchars(substr($row['content'], 0, 100)); ?>...
+    </p>
+</div>
+
+<div class="card-footer-strip">
+    <!-- Link yang sudah diperbaiki -->
+    <a href="posts/read.php?id=<?= $row['id']; ?>" class="read-link">Baca Selengkapnya &rarr;</a>
+</div>
             </div>
         </div>
         <?php $i++; endwhile; ?>

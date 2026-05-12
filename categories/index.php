@@ -1,17 +1,24 @@
 <?php 
 require '../config/database.php';
-include '../layout/header.php';
 
+// 1. LOGIKA PROSES DATA HARUS DI PALING ATAS
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $name = $_POST['name'];
     $stmt = $conn->prepare("INSERT INTO categories (name) VALUES (?)");
     $stmt->bind_param("s", $name);
-    $stmt->execute();
-    header("location: index.php");
-    exit;
+    
+    if ($stmt->execute()) {
+        // Sekarang redirect akan berhasil karena belum ada include header.php
+        header("location: index.php");
+        exit;
+    }
 }
 
+// 2. AMBIL DATA DARI DATABASE
 $result = $conn->query("SELECT * FROM categories ORDER BY id DESC");
+
+// 3. BARU PANGGIL HEADER (SETELAH LOGIKA PHP SELESAI)
+include '../layout/header.php'; 
 ?>
 
 <!-- HERO -->
