@@ -1,37 +1,18 @@
 <?php 
 require '../config/database.php';
 
-
+// 1. LOGIKA PROSES DATA (PASTIKAN BERSIH & TIDAK DOUBLE)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $name = $_POST['name'];
-
-    $stmt = $conn->prepare("INSERT INTO categories (name) VALUES (?)");
-    $stmt->bind_param("s", $name);
     
-    if ($stmt->execute()) {
-        // Sekarang redirect akan berhasil karena belum ada include header.php
-
-    
-    // 1. Buat Slug otomatis dari nama (kecilkan huruf, ganti spasi dengan minus)
+    // Buat slug otomatis
     $slug = strtolower(str_replace(' ', '-', $name));
     
-    // 2. Masukkan ke dalam query (tambahkan kolom slug)
-    // Pastikan struktur tabelmu memang ada kolom 'name' dan 'slug'
+    // Query INSERT hanya sekali saja
     $stmt = $conn->prepare("INSERT INTO categories (name, slug) VALUES (?, ?)");
     $stmt->bind_param("ss", $name, $slug);
     
     if ($stmt->execute()) {
-
-    
-    // Buat slug otomatis: kecilkan huruf dan ganti spasi dengan minus
-    $slug = strtolower(str_replace(' ', '-', $name));
-    
-    // Tambahkan kolom slug di query INSERT
-    $stmt = $conn->prepare("INSERT INTO categories (name, slug) VALUES (?, ?)");
-    $stmt->bind_param("ss", $name, $slug);
-    
-    if ($stmt->execute()) {
-
         header("location: index.php");
         exit;
     }
