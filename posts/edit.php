@@ -24,7 +24,7 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY name ASC");
 ?>
 
 <!-- HERO -->
-<div class="page-hero" style="margin-left:-2rem; margin-right:-2rem; margin-top:0;">
+<div class="page-hero" data-label="Edit" style="margin-left:-2.5rem; margin-right:-2.5rem; margin-top:0;">
     <div class="hero-tag">Postingan</div>
     <h1>Edit Postingan</h1>
     <p>Perbarui judul, kategori, atau isi artikel.</p>

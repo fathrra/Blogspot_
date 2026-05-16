@@ -25,7 +25,7 @@ $result = $conn->query("SELECT * FROM categories ORDER BY id DESC");
 include '../layout/header.php'; 
 ?>
 
-<div class="page-hero" style="margin-left:-2rem; margin-right:-2rem; margin-top:0;">
+<div class="page-hero" data-label="Cat" style="margin-left:-2.5rem; margin-right:-2.5rem; margin-top:0;">
     <div class="hero-tag">Manajemen</div>
     <h1>Kelola Kategori</h1>
     <p>Tambah dan hapus kategori untuk postinganmu.</p>
@@ -60,7 +60,7 @@ include '../layout/header.php';
                 <tbody>
                     <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
-                        <td style="color:#aaa; font-size:12px;"><?= $row['id']; ?></td>
+                        <td style="color:#A1A1AA; font-size:12px;"><?= $row['id']; ?></td>
                         <td><?= htmlspecialchars($row['name']); ?></td>
                         <td>
                             <a href="delete.php?id=<?= $row['id']; ?>" class="btn-del" onclick="return confirm('Hapus kategori ini?')">&#10005; Hapus</a>
@@ -69,10 +69,8 @@ include '../layout/header.php';
                     <?php endwhile; ?>
 
                     <?php if ($result->num_rows == 0): ?>
-                    <tr>
-                        <td colspan="3" style="text-align:center; padding:2rem; color:#aaa; font-size:13px;">
-                            Belum ada kategori.
-                        </td>
+                    <tr class="empty-row">
+                        <td colspan="3">Belum ada kategori.</td>
                     </tr>
                     <?php endif; ?>
                 </tbody>

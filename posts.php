@@ -10,7 +10,7 @@ $result = $conn->query($query);
 ?>
 
 <!-- HERO -->
-<div class="page-hero" style="margin-left:-2rem; margin-right:-2rem; margin-top:0;">
+<div class="page-hero" data-label="Posts" style="margin-left:-2.5rem; margin-right:-2.5rem; margin-top:0;">
     <div class="hero-tag">Artikel</div>
     <h1>Semua Postingan</h1>
     <p>Menampilkan semua artikel yang telah diterbitkan.</p>
@@ -36,7 +36,7 @@ $result = $conn->query($query);
             while ($row = $result->fetch_assoc()): 
             ?>
             <tr>
-                <td style="color:#aaa; font-size:12px;"><?= $no++; ?></td>
+                <td style="color:#A1A1AA; font-size:12px;"><?= $no++; ?></td>
                 <td style="font-weight:400;"><?= htmlspecialchars($row['title']); ?></td>
                 <td>
                     <span class="cat-badge"><?= htmlspecialchars($row['category_name'] ?? 'Umum'); ?></span>
@@ -49,9 +49,9 @@ $result = $conn->query($query);
             <?php endwhile; ?>
 
             <?php if ($result->num_rows == 0): ?>
-            <tr>
-                <td colspan="4" style="text-align:center; padding:2.5rem; color:#aaa; font-size:13px;">
-                    Belum ada postingan. <a href="posts/create.php" style="color:#185FA5;">Buat sekarang →</a>
+            <tr class="empty-row">
+                <td colspan="4">
+                    Belum ada postingan. <a href="posts/create.php">Buat sekarang →</a>
                 </td>
             </tr>
             <?php endif; ?>

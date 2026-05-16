@@ -6,7 +6,7 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY name ASC");
 ?>
 
 <!-- HERO -->
-<div class="page-hero" style="margin-left:-2rem; margin-right:-2rem; margin-top:0;">
+<div class="page-hero" data-label="New" style="margin-left:-2.5rem; margin-right:-2.5rem; margin-top:0;">
     <div class="hero-tag">Postingan</div>
     <h1>Tambah Postingan Baru</h1>
     <p>Isi form di bawah untuk menerbitkan artikel baru.</p>

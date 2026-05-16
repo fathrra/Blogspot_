@@ -1,13 +1,13 @@
 <?php
 require '../config/database.php';
+include '../layout/header.php';
 
-// 1. CEK ID DULU SEBELUM ADA OUTPUT APAPUN
 if (!isset($_GET['id'])) {
     header("Location: ../posts.php");
     exit;
 }
 
-$id = $_GET['id'];
+$id = (int) $_GET['id'];
 $stmt = $conn->prepare(
     "SELECT posts.*, categories.name AS category_name 
      FROM posts 
@@ -19,38 +19,37 @@ $stmt->execute();
 $result = $stmt->get_result();
 $post = $result->fetch_assoc();
 
-// 2. JIKA POST TIDAK ADA, TAMPILKAN HEADER + ERROR
 if (!$post) {
-    include '../layout/header.php'; // Panggil di sini hanya jika error
-    echo "<div style='text-align:center;padding:4rem;color:#aaa;'>Postingan tidak ditemukan.</div>";
+    echo '<div style="text-align:center; padding:3rem; color:#A1A1AA; font-size:13px;">Postingan tidak ditemukan. <a href="../posts.php" style="color:#1D5FA6;">Kembali →</a></div>';
     include '../layout/footer.php';
     exit;
 }
-
-// 3. JIKA SEMUA OK, BARU PANGGIL HEADER UTAMA
-include '../layout/header.php';
 ?>
 
 <!-- HERO -->
-<div class="page-hero" style="margin-left:-2rem; margin-right:-2rem; margin-top:0;">
-    <div class="hero-tag"><?= htmlspecialchars($post['category_name'] ?? 'Umum'); ?></div>
-    <h1 style="max-width:640px;"><?= htmlspecialchars($post['title']); ?></h1>
+<div class="page-hero" data-label="Read" style="margin-left:-2.5rem; margin-right:-2.5rem; margin-top:0;">
+    <div class="hero-tag"><?= htmlspecialchars($post['category_name'] ?? 'Artikel'); ?></div>
+    <h1 style="max-width:620px;"><?= htmlspecialchars($post['title']); ?></h1>
 </div>
 
-<div class="row justify-content-center">
-    <div class="col-md-8">
+<!-- ISI ARTIKEL -->
+<div style="margin-top: 2.2rem;">
+    <div class="article-body">
+        <?php
+        $paragraphs = explode("\n", trim($post['content']));
+        foreach ($paragraphs as $para) {
+            $para = trim($para);
+            if ($para !== '') {
+                echo '<p>' . htmlspecialchars($para) . '</p>';
+            }
+        }
+        ?>
+    </div>
 
-        <!-- ISI ARTIKEL -->
-        <div class="form-card" style="padding:2rem 2.2rem; line-height:1.9; font-size:15px;">
-            <!-- Menggunakan nl2br agar enter/paragraf di database tetap terbaca -->
-            <?= nl2br(htmlspecialchars($post['content'])); ?>
-        </div>
-
-        <!-- TOMBOL KEMBALI -->
-        <div style="margin-top:1.5rem;">
-            <a href="../posts.php" class="btn-dark-outline">← Kembali ke Semua Postingan</a>
-        </div>
-
+    <!-- AKSI BAWAH -->
+    <div style="max-width:680px; margin: 1.5rem auto 0; display:flex; justify-content:space-between; align-items:center;">
+        <a href="../posts.php" class="btn-dark-outline">← Semua Postingan</a>
+        <a href="edit.php?id=<?= $post['id']; ?>" class="btn-edit">&#9998; Edit Artikel</a>
     </div>
 </div>
 
