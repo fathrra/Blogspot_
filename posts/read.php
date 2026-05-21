@@ -20,37 +20,32 @@ $result = $stmt->get_result();
 $post = $result->fetch_assoc();
 
 if (!$post) {
-    echo '<div style="text-align:center; padding:3rem; color:#A1A1AA; font-size:13px;">Postingan tidak ditemukan. <a href="../posts.php" style="color:#1D5FA6;">Kembali →</a></div>';
+    echo "<p style='color:#aeaeb2; text-align:center; padding:40px;'>Postingan tidak ditemukan.</p>";
     include '../layout/footer.php';
     exit;
 }
 ?>
 
-<!-- HERO -->
-<div class="page-hero" data-label="Read" style="margin-left:-2.5rem; margin-right:-2.5rem; margin-top:0;">
-    <div class="hero-tag"><?= htmlspecialchars($post['category_name'] ?? 'Artikel'); ?></div>
-    <h1 style="max-width:620px;"><?= htmlspecialchars($post['title']); ?></h1>
+<!-- JUDUL ARTIKEL -->
+<div class="page-title">
+    <small><?= htmlspecialchars($post['category_name'] ?? 'Artikel'); ?></small>
+    <h1 style="font-size:28px;"><?= htmlspecialchars($post['title']); ?></h1>
 </div>
 
 <!-- ISI ARTIKEL -->
-<div style="margin-top: 2.2rem;">
-    <div class="article-body">
-        <?php
-        $paragraphs = explode("\n", trim($post['content']));
-        foreach ($paragraphs as $para) {
-            $para = trim($para);
-            if ($para !== '') {
-                echo '<p>' . htmlspecialchars($para) . '</p>';
-            }
-        }
-        ?>
-    </div>
+<div class="article">
+    <?php
+    foreach (explode("\n", trim($post['content'])) as $para) {
+        $para = trim($para);
+        if ($para) echo '<p>' . htmlspecialchars($para) . '</p>';
+    }
+    ?>
+</div>
 
-    <!-- AKSI BAWAH -->
-    <div style="max-width:680px; margin: 1.5rem auto 0; display:flex; justify-content:space-between; align-items:center;">
-        <a href="../posts.php" class="btn-dark-outline">← Semua Postingan</a>
-        <a href="edit.php?id=<?= $post['id']; ?>" class="btn-edit">&#9998; Edit Artikel</a>
-    </div>
+<!-- TOMBOL BAWAH -->
+<div class="d-flex justify-between align-center mt-4" style="max-width:660px; margin-left:auto; margin-right:auto;">
+    <a href="../posts.php" class="btn btn-gray">← Semua Postingan</a>
+    <a href="edit.php?id=<?= $post['id']; ?>" class="btn">Edit Artikel</a>
 </div>
 
 <?php include '../layout/footer.php'; ?>

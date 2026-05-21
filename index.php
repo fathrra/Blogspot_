@@ -10,55 +10,37 @@ $result = $conn->query($query);
 ?>
 
 <!-- HERO -->
-<div class="page-hero" data-label="Blog" style="margin-left:-2.5rem; margin-right:-2.5rem; margin-top:0;">
-    <div class="hero-tag">Blog System</div>
-    <h1>Cerita, Ide,<br>dan <em style="font-style:italic; color:rgba(255,255,255,0.45);">Inspirasi.</em></h1>
-    <p style="max-width:400px; margin-top:0.5rem; margin-bottom:1.8rem;">
-        Tempat berbagi tutorial, pengalaman, dan pemikiran seputar teknologi dan kehidupan.
-    </p>
-    <a href="posts.php" class="btn-dark">Lihat Semua Postingan &rarr;</a>
+<div class="hero">
+    <h1>My Blog</h1>
+    <p>Tempat berbagi tutorial, pengalaman, dan pemikiran seputar teknologi.</p>
+    <a href="posts.php" class="btn">Lihat Semua Postingan &rarr;</a>
 </div>
 
-<!-- POSTS TERBARU -->
-<div style="margin-top:2.5rem;">
-    <div class="section-label">Postingan Terbaru</div>
+<!-- POSTINGAN TERBARU -->
+<p class="text-muted" style="margin-bottom:14px;">POSTINGAN TERBARU</p>
 
-    <?php if ($result->num_rows > 0): ?>
-    <div class="row g-3">
-        <?php 
-        $symbols = ['✦', '◈', '◇'];
-        $i = 0;
-        while ($row = $result->fetch_assoc()): 
-        ?>
-        <div class="col-md-4">
-            <div class="blog-card">
-                <div class="card-thumb">
-                    <span><?= $symbols[$i % 3]; ?></span>
-                </div>
-                <div class="card-inner">
-                    <div class="cat-badge"><?= htmlspecialchars($row['category_name'] ?? 'Uncategorized'); ?></div>
-                    <h5 style="font-size:14px; font-weight:500; line-height:1.4; margin-bottom:6px;">
-                        <a href="posts/read.php?id=<?= $row['id']; ?>" style="text-decoration:none; color:inherit;">
-                            <?= htmlspecialchars($row['title']); ?>
-                        </a>
-                    </h5>
-                    <p style="font-size:12.5px; color:#6b6b6b; line-height:1.6; margin:0;">
-                        <?= htmlspecialchars(substr($row['content'], 0, 100)); ?>...
-                    </p>
-                </div>
-                <div class="card-footer-strip">
-                    <a href="posts/read.php?id=<?= $row['id']; ?>" class="read-link">Baca Selengkapnya &rarr;</a>
-                </div>
-            </div>
+<?php if ($result->num_rows > 0): ?>
+<div class="grid-3">
+    <?php
+    $i = 1;
+    while ($row = $result->fetch_assoc()):
+    ?>
+    <a href="posts/read.php?id=<?= $row['id']; ?>" class="card">
+        <div class="card-img"><?= $i; ?></div>
+        <div class="card-body">
+            <div class="badge"><?= htmlspecialchars($row['category_name'] ?? 'Umum'); ?></div>
+            <h3><?= htmlspecialchars($row['title']); ?></h3>
+            <p><?= htmlspecialchars(substr($row['content'], 0, 90)); ?>...</p>
         </div>
-        <?php $i++; endwhile; ?>
-    </div>
-
-    <?php else: ?>
-    <div style="text-align:center; padding:3rem; color:#6b6b6b; font-size:14px; background:#fff; border-radius:14px; border:0.5px solid rgba(0,0,0,0.07);">
-        Belum ada postingan. <a href="posts/create.php" style="color:#1D5FA6;">Tulis yang pertama →</a>
-    </div>
-    <?php endif; ?>
+        <div class="card-foot">Baca Selengkapnya &rarr;</div>
+    </a>
+    <?php $i++; endwhile; ?>
 </div>
+
+<?php else: ?>
+<p style="color:#aeaeb2; text-align:center; padding:40px;">
+    Belum ada postingan. <a href="posts/create.php" style="color:#0071e3;">Tulis sekarang →</a>
+</p>
+<?php endif; ?>
 
 <?php include 'layout/footer.php'; ?>

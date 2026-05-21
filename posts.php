@@ -9,49 +9,47 @@ $query = "SELECT posts.*, categories.name AS category_name
 $result = $conn->query($query);
 ?>
 
-<!-- HERO -->
-<div class="page-hero" data-label="Posts" style="margin-left:-2.5rem; margin-right:-2.5rem; margin-top:0;">
-    <div class="hero-tag">Artikel</div>
+<!-- JUDUL HALAMAN -->
+<div class="page-title">
+    <small>Artikel</small>
     <h1>Semua Postingan</h1>
-    <p>Menampilkan semua artikel yang telah diterbitkan.</p>
 </div>
 
-<div style="display:flex; justify-content:flex-end; margin-bottom:1.5rem;">
-    <a href="posts/create.php" class="btn-dark">+ Tambah Post Baru</a>
+<!-- TOOLBAR -->
+<div class="d-flex justify-between align-center mb-3">
+    <span class="text-muted"><?= $result->num_rows; ?> artikel</span>
+    <a href="posts/create.php" class="btn">+ Tambah Post</a>
 </div>
 
-<div class="data-table-wrap">
-    <table class="data-table">
+<!-- TABEL -->
+<div class="table-wrap">
+    <table>
         <thead>
             <tr>
-                <th style="width:48px;">#</th>
+                <th style="width:40px;">#</th>
                 <th>Judul</th>
                 <th>Kategori</th>
-                <th style="width:140px;">Aksi</th>
+                <th style="width:130px;">Aksi</th>
             </tr>
         </thead>
         <tbody>
-            <?php 
-            $no = 1;
-            while ($row = $result->fetch_assoc()): 
-            ?>
+            <?php $no = 1; while ($row = $result->fetch_assoc()): ?>
             <tr>
-                <td style="color:#A1A1AA; font-size:12px;"><?= $no++; ?></td>
-                <td style="font-weight:400;"><?= htmlspecialchars($row['title']); ?></td>
+                <td class="text-muted"><?= $no++; ?></td>
+                <td><?= htmlspecialchars($row['title']); ?></td>
+                <td><span class="badge"><?= htmlspecialchars($row['category_name'] ?? 'Umum'); ?></span></td>
                 <td>
-                    <span class="cat-badge"><?= htmlspecialchars($row['category_name'] ?? 'Umum'); ?></span>
-                </td>
-                <td>
-                    <a href="posts/edit.php?id=<?= $row['id']; ?>" class="btn-edit">&#9998; Edit</a>
-                    <a href="posts/delete.php?id=<?= $row['id']; ?>" class="btn-del" onclick="return confirm('Yakin ingin menghapus postingan ini?')">&#10005; Hapus</a>
+                    <a href="posts/edit.php?id=<?= $row['id']; ?>" class="btn btn-gray btn-sm">Edit</a>
+                    <a href="posts/delete.php?id=<?= $row['id']; ?>" class="btn btn-red btn-sm"
+                       onclick="return confirm('Hapus postingan ini?')">Hapus</a>
                 </td>
             </tr>
             <?php endwhile; ?>
 
             <?php if ($result->num_rows == 0): ?>
-            <tr class="empty-row">
-                <td colspan="4">
-                    Belum ada postingan. <a href="posts/create.php">Buat sekarang →</a>
+            <tr>
+                <td colspan="4" style="text-align:center; padding:32px; color:#aeaeb2;">
+                    Belum ada postingan. <a href="posts/create.php" style="color:#0071e3;">Buat sekarang →</a>
                 </td>
             </tr>
             <?php endif; ?>
